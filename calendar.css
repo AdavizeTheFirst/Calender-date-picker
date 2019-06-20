@@ -1,0 +1,60 @@
+body{
+    padding-top: 80px;
+    width: 60%;
+    margin:auto;
+}
+.calendar{
+        display: inline-flex;
+        border: 1px rgb(173, 173, 173) solid
+    }
+ .calendar input{
+  height: 20px;
+  padding: 3px;
+  margin-left: 3px; 
+  border: none;
+  width: 120px;
+  font-size: 16px;
+  text-align: left;
+ }   
+.calendar img{
+padding-right: 2px;
+border-left: 1px solid rgb(195, 193, 193);
+margin-left: 1px;
+padding-left: 3px;
+height: 25px ;
+width: auto;
+align-self: center;
+}    
+.calendarTable img{
+    padding-right: 2px;
+    padding-left: 3px;
+    height: 20px ;
+    width: auto;
+    align-self: center;
+    }    
+ .calendarTable{
+    border-collapse: collapse;
+  }
+  .calendarTable caption #month{
+    font-size: 16px;    
+ }
+ .calendarTable caption{
+    height: 15px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+   }   
+ 
+.picker table, th, td, tr{
+    background: rgb(179, 179, 179);
+    padding: 4px;;
+    text-align: center;
+    width: 16px
+}
+.calendarTable .selected{
+    background: white;
+   }
+   .calendarTable .n{
+    background: rgb(177, 172, 172);
+    color: rgb(129, 129, 129)
+   }
