@@ -1,7 +1,6 @@
 var calendars = Array.from(document.getElementsByClassName("calendar"))
 var showDatePickers = []
 calendars.forEach(calendar => showDatePickers.push(calendar.children[1]))
-var picker = document.querySelector("#picker")
 
 var getCurrentDateStr = () => {
  var today = new Date()
@@ -17,12 +16,14 @@ var maxDateStr = "06-27-2019"
 calendars.forEach(calendar => calendar.children[0].value = minDateStr)
 
 var constructPicker = (e) =>{
+  var calendarGrid =  document.createElement('table')
+  calendarGrid.className = 'calendarTable'
+  calendarGrid.id = 'grid-' + e.target.parentElement.children[0].id
    startDate = new Date(minDateStr)
    focusDate = new Date(e.target.previousElementSibling.value)
    endDate = new Date(maxDateStr)
    monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-   table = `<table class='calendarTable'>
-   <caption><img src="./img/up.png"> <span id="month">${monthName[focusDate.getMonth()]} ${focusDate.getFullYear()}</span><img src="./img/down.png">
+   var content = `<caption><img src="./img/up.png"> <span id="month">${monthName[focusDate.getMonth()]} ${focusDate.getFullYear()}</span><img src="./img/down.png">
    </caption>
    <tr>
        <th>Su</th>
@@ -63,7 +64,7 @@ var _31s = [0,2,4,6,7,9,11]
 //Create Table
    for(var r = 1; r <= rows; r ++)
    {
-    table += "<tr>"
+    content += "<tr>"
          for(var c = 1; c <= col; c++)         
          {  
             if(dayfill === 0)
@@ -94,15 +95,37 @@ var _31s = [0,2,4,6,7,9,11]
            }     
            else{withinRange = 'n'}    
             classNames = `${state} ${withinRange}` 
-            table += `<td class="${classNames}">${dayfill}</td>`
+            content += `<td class="${classNames}">${dayfill}</td>`
          }
-    table +=  "</tr>"    
+    content +=  "</tr>"    
    }
-table += "<table>"
-picker.innerHTML = table
+calendarGrid.innerHTML = content
+// display the grid where attatched to the parent
+
+ var getX = () => {
+var parent = e.target.parentElement
+return parent.offsetLeft - parent.scrollLeft + parent.clientLeft
+}
+var getY = () => {
+   var parent = e.target.parentElement
+   Y = parent.offsetTop - parent.scrollTop +  parent.clientTop  + parent.offsetHeight
+   return Y
+}
+console.log(getX(),getY())
+var style = document.createElement('style');
+style.type = 'text/css';
+style.innerHTML = ` .calendarTable{
+   margin-top: ${e.target.parentElement.offsetHeight}px;
+   z-index: 2;    
+ }`;
+ calendarGrid.appendChild(style)
+
+e.target.parentElement.appendChild(calendarGrid)
 }
 
-showDatePickers.forEach(showDatePicker => {
-   showDatePicker.addEventListener('click', constructPicker)})
+showDatePickers.forEach(showDatePicker => {   
+   showDatePicker.addEventListener('click', constructPicker)}
+)
+
 
   

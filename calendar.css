@@ -5,7 +5,8 @@ body{
 }
 .calendar{
         display: inline-flex;
-        border: 1px rgb(173, 173, 173) solid
+        border: 1px rgb(173, 173, 173) solid;
+        margin-bottom: 8px
     }
  .calendar input{
   height: 20px;
@@ -24,6 +25,7 @@ padding-left: 3px;
 height: 25px ;
 width: auto;
 align-self: center;
+z-index: 0;
 }    
 .calendarTable img{
     padding-right: 2px;
@@ -32,17 +34,20 @@ align-self: center;
     width: auto;
     align-self: center;
     }    
- .calendarTable{
-    border-collapse: collapse;
-  }
+    .calendarTable{
+        border-collapse: collapse;    
+        position: absolute;
+      }
   .calendarTable caption #month{
+    padding-top: 10px;
     font-size: 16px;    
  }
  .calendarTable caption{
-    height: 15px;
+    height: 12px;
     padding: 10px;
     margin-bottom: 10px;
     font-size: 16px;
+    border-top: 1px solid black
    }   
  
 .picker table, th, td, tr{
