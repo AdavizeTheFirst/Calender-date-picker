@@ -1,7 +1,7 @@
+monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 var calendars = Array.from(document.getElementsByClassName("calendar"))
 var showDatePickers = []
 calendars.forEach(calendar => showDatePickers.push(calendar.children[1]))
-
 var getCurrentDateStr = () => {
  var today = new Date()
     var day = "" + today.getDate(),
@@ -10,20 +10,25 @@ var getCurrentDateStr = () => {
       if(month.length === 1){month = 0 + "" + month}
    return (`${month}-${day}-${today.getFullYear()}`)
 }
-
 var minDateStr = getCurrentDateStr() //if minimum date is present date
 var maxDateStr = "06-27-2019"
-calendars.forEach(calendar => calendar.children[0].value = minDateStr)
+// Initial date buggy, will add later
+// var initialDate = "06-24-2019" //initial calendar date 
+// calendars.forEach(calendar => calendar.children[0].value = initialDate) 
 
 var constructPicker = (e) =>{
   var calendarGrid =  document.createElement('table')
   calendarGrid.className = 'calendarTable'
   calendarGrid.id = 'grid-' + e.target.parentElement.children[0].id
    startDate = new Date(minDateStr)
-   focusDate = new Date(e.target.previousElementSibling.value)
+   if (e.target.previousElementSibling.value === ''){
+      focusDate = startDate
+   }
+   else {
+      focusDate = new Date(e.target.previousElementSibling.value)
+   }   
    endDate = new Date(maxDateStr)
-   monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-   var content = `<caption><img src="./img/up.png"> <span id="month">${monthName[focusDate.getMonth()]} ${focusDate.getFullYear()}</span><img src="./img/down.png">
+   var content = `<caption><img src="./img/up.png"> ${monthName[focusDate.getMonth()]} ${focusDate.getFullYear()}<img src="./img/down.png">
    </caption>
    <tr>
        <th>Su</th>
@@ -59,8 +64,7 @@ var _31s = [0,2,4,6,7,9,11]
         maxCalendarDay = 29
      }
     else{ maxCalendarDay = 28}
-   } 
-  console.log (maxCalendarDay)
+   }  
 //Create Table
    for(var r = 1; r <= rows; r ++)
    {
@@ -94,24 +98,13 @@ var _31s = [0,2,4,6,7,9,11]
             withinRange = ''
            }     
            else{withinRange = 'n'}    
-            classNames = `${state} ${withinRange}` 
+            classNames = `${state} ${withinRange} day` 
             content += `<td class="${classNames}">${dayfill}</td>`
          }
     content +=  "</tr>"    
    }
 calendarGrid.innerHTML = content
 // display the grid where attatched to the parent
-
- var getX = () => {
-var parent = e.target.parentElement
-return parent.offsetLeft - parent.scrollLeft + parent.clientLeft
-}
-var getY = () => {
-   var parent = e.target.parentElement
-   Y = parent.offsetTop - parent.scrollTop +  parent.clientTop  + parent.offsetHeight
-   return Y
-}
-console.log(getX(),getY())
 var style = document.createElement('style');
 style.type = 'text/css';
 style.innerHTML = ` .calendarTable{
@@ -119,13 +112,36 @@ style.innerHTML = ` .calendarTable{
    z-index: 2;    
  }`;
  calendarGrid.appendChild(style)
-
 e.target.parentElement.appendChild(calendarGrid)
+e.target.parentElement.className += ' active'
+// add event listner after appending
+document.getElementById(calendarGrid.id).addEventListener('click', (e) => {
+   var target = e.target
+   // get selected day
+   if(target.classList.contains('day') && !target.classList.contains('n') ){
+      var day = target.innerText
+      var parentInput = document.getElementById(target.parentElement.parentElement.parentElement.id.split('grid-')[1]) 
+      console.log(focusDate)      
+   }  
+})
+
+}
+var deconstructPicker = (e) => {
+   e.target.parentElement.children[2].remove()
+   e.target.parentElement.classList.remove('active')
 }
 
-showDatePickers.forEach(showDatePicker => {   
-   showDatePicker.addEventListener('click', constructPicker)}
-)
-
-
-  
+showDatePickers.forEach(showDatePicker => {
+   showDatePicker.addEventListener('click', (e) =>{
+      if (!e.target.parentElement.classList.contains('active')){
+         constructPicker(e)
+      }
+      else{
+         deconstructPicker(e)
+      }
+   })
+})  
+//remove calendar grid when focus is lost
+// document.body.addEventListener('click', (e) => {
+//    console.log(e.target)
+// })

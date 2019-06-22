@@ -10,10 +10,11 @@ body{
     }
  .calendar input{
   height: 20px;
-  padding: 3px;
+  padding: 4px;
+  
   margin-left: 3px; 
   border: none;
-  width: 120px;
+  width: 135px;
   font-size: 16px;
   text-align: left;
  }   
@@ -28,26 +29,26 @@ align-self: center;
 z-index: 0;
 }    
 .calendarTable img{
-    padding-right: 2px;
-    padding-left: 3px;
+    padding-right: 10px;
+    padding-left: 10px;
     height: 20px ;
-    width: auto;
-    align-self: center;
+    width: auto;  
+    border: none;  
     }    
-    .calendarTable{
+.calendarTable{
         border-collapse: collapse;    
         position: absolute;
       }
-  .calendarTable caption #month{
-    padding-top: 10px;
-    font-size: 16px;    
+ 
+ #picker table .caption .span #monthYear{
+     background: red;
  }
  .calendarTable caption{
-    height: 12px;
-    padding: 10px;
-    margin-bottom: 10px;
+    height: 22px;
+    padding: 10px;    
     font-size: 16px;
-    border-top: 1px solid black
+    border-top: 1px solid black;
+    background-color: rgb(109, 95, 95);
    }   
  
 .picker table, th, td, tr{
