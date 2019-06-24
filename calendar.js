@@ -196,11 +196,7 @@ return maxCalendarDay
 calendars.forEach(calendar => {
    calendar.addEventListener('click', (e) =>{      
       if(e.target.id === "cld-img"){
-         e.target.previousElementSibling.focus()
+         constructPicker(e)
       }             
-})
-   calendar.addEventListener('click', (e) =>{     
-         if(e.target.parentElement.classList.contains('inactive')){
-            constructPicker(e)}     
    })  
 })  
