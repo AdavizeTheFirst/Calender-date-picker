@@ -1,6 +1,5 @@
 monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 var calendars = Array.from(document.getElementsByClassName("calendar"))
-console.log(calendars)
 // var showDatePickers = []
 // calendars.forEach(calendar => showDatePickers.push(calendar.children[1]))
 var getCurrentDateStr = () => {
@@ -17,6 +16,7 @@ var maxDateStr = "06-28-2020"
 var constructPicker = (e) =>{
     var calendarGrid =  document.createElement('table')
   calendarGrid.className = 'calendarTable'
+  calendarGrid.tabIndex = 1
   calendarGrid.id = 'grid-' + e.target.parentElement.children[0].id   
   var initialDate = e.target.parentElement.children[0].value //date that loads with webpage (should be within minimum and maximum range)
    if (initialDate === ''){
@@ -39,7 +39,11 @@ positionStyle.innerHTML = ` .calendarTable{
  calendarGrid.appendChild(positionStyle)
 e.target.parentElement.appendChild(calendarGrid)
 e.target.parentElement.classList.remove('inactive')
+e.target.parentElement.children[2].focus()
 // add event listener after appending
+document.getElementById(calendarGrid.id).addEventListener("focusout", (ev)=>{
+deconstructPicker(ev)
+})
 document.getElementById(calendarGrid.id).addEventListener('click', (ev) => {
    var mmyy = calendarGrid.caption.innerText.split(' ')
    var target = ev.target
@@ -47,7 +51,7 @@ document.getElementById(calendarGrid.id).addEventListener('click', (ev) => {
    if(target.classList.contains('day') && !target.classList.contains('n') ){         
       var parentInput = document.getElementById(calendarGrid.id.split('grid-')[1])       
       parentInput.value = `${("0" + ((Number(monthName.indexOf(mmyy[0]))) + 1)).slice(-2)}/${("0" + target.innerText).slice(-2) }/${mmyy[1]}` 
-      deconstructPicker(e) 
+      parentInput.focus()
    }  
    
   // check whether up or down is clicked then change grid values
@@ -96,9 +100,9 @@ document.getElementById(calendarGrid.id).addEventListener('click', (ev) => {
  var cmpStr = (dateStr) => {
    return `${dateStr.split('-')[2]}-${dateStr.split('-')[0]}-${dateStr.split('-')[1]}`
   }
-var deconstructPicker = (e) => {
-   e.target.parentElement.children[2].remove()
-   e.target.parentElement.className += ' inactive'
+var deconstructPicker = (e_) => {
+   e_.target.parentElement.className += ' inactive'
+   e_.target.parentElement.children[2].remove()
 }
 // make grid
 var constructGrid = (maxD, minD, focusD)=>{
@@ -195,8 +199,8 @@ calendars.forEach(calendar => {
          e.target.previousElementSibling.focus()
       }             
 })
-   calendar.addEventListener('focusin', (e) =>{      
+   calendar.addEventListener('click', (e) =>{     
          if(e.target.parentElement.classList.contains('inactive')){
-            constructPicker(e)}            
+            constructPicker(e)}     
    })  
 })  
