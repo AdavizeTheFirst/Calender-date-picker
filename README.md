@@ -50,4 +50,4 @@ Use ""N/A" for unlimited maximum date range else format "mm-dd-yyyy"
 *Note this uses the procedural pattern for simplicity
 *OOP pattern will come as an update
 
-Feel free to contribute (especially to style, year and month picker too), leave comment, open issues if any and star if you love it.
+Feel free to contribute (especially to style, year and month/year picker too), leave comment, open issues if any and star if you love it.
