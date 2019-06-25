@@ -13,9 +13,9 @@ var constructPicker = (e, minDateStr, maxDateStr) =>{
   calendarGrid.className = 'calendarTable'
   calendarGrid.tabIndex = 1
   calendarGrid.id = 'grid-' + e.target.parentElement.children[0].id 
-  //date that loads with webpage (should be within minimum and maximum range)  
+  //date that loads with webpage (should be within minimum and maximum range) 
   var initialDate = e.target.parentElement.children[0].value 
-   if (initialDate === ''){      
+   if (new Date(initialDate) == "Invalid Date"){      
       if(minDateStr != "01-01-0001"){
          focusDate = new Date(minDateStr)
       }
