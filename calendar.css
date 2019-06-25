@@ -1,8 +1,3 @@
-body{
-    padding-top: 80px;
-    width: 60%;
-    margin:auto;
-}
 .calendar{
         display: inline-flex;
         border: 1px rgb(173, 173, 173) solid;
@@ -62,14 +57,12 @@ z-index: 0;
 }
 .calendar #down{
     float: right;
-}
-
- 
+} 
 .picker table, th, td, tr{
     background: rgb(179, 179, 179);
     padding: 4px;;
     text-align: center;
-    width: 16px
+    width: 16px;
 }
 .calendarTable .selected{
     background: white;

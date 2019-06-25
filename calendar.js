@@ -1,7 +1,5 @@
 monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 var calendars = Array.from(document.getElementsByClassName("calendar"))
-// var showDatePickers = []
-// calendars.forEach(calendar => showDatePickers.push(calendar.children[1]))
 var getCurrentDateStr = () => {
  var today = new Date()
     var day = "" + today.getDate(),
@@ -10,23 +8,33 @@ var getCurrentDateStr = () => {
       if(month.length === 1){month = 0 + "" + month}
    return (`${month}-${day}-${today.getFullYear()}`)
 }
-var minDateStr = getCurrentDateStr() //if minimum date is present date
-var maxDateStr = "06-28-2020"
-
-var constructPicker = (e) =>{
+var constructPicker = (e, minDateStr, maxDateStr) =>{
     var calendarGrid =  document.createElement('table')
   calendarGrid.className = 'calendarTable'
   calendarGrid.tabIndex = 1
-  calendarGrid.id = 'grid-' + e.target.parentElement.children[0].id   
-  var initialDate = e.target.parentElement.children[0].value //date that loads with webpage (should be within minimum and maximum range)
-   if (initialDate === ''){
-      focusDate = new Date(minDateStr)
+  calendarGrid.id = 'grid-' + e.target.parentElement.children[0].id 
+  //date that loads with webpage (should be within minimum and maximum range)  
+  var initialDate = e.target.parentElement.children[0].value 
+   if (initialDate === ''){      
+      if(minDateStr != "01-01-0001"){
+         focusDate = new Date(minDateStr)
+      }
+      else{
+         if(maxDateStr == "N/A")
+         {
+            focusDate = new Date(getCurrentDateStr())
+         }
+         else{
+            focusDate = new Date(maxDateStr)
+         }
+      }
    }
    else {
       focusDate = new Date(initialDate)
+   }  
+   if (maxDateStr != "N/A") {
+   endDate = new Date(maxDateStr)   
    }   
-   endDate = new Date(maxDateStr)
-   
 calendarGrid.innerHTML = constructGrid(maxDateStr, minDateStr, focusDate)
 // display the grid where attatched to the parent
 var positionStyle = document.createElement('style');
@@ -93,9 +101,7 @@ document.getElementById(calendarGrid.id).addEventListener('click', (ev) => {
       calendarGrid. innerHTML = constructGrid(maxDateStr, minDateStr, newFocusDate)
       calendarGrid.appendChild(positionStyle)  
   }
-})
-
-}
+})}
  //yy mm dd format
  var cmpStr = (dateStr) => {
    return `${dateStr.split('-')[2]}-${dateStr.split('-')[0]}-${dateStr.split('-')[1]}`
@@ -133,7 +139,7 @@ var withinRange = '' //whether date is within the maxi and min date
 for(var r = 1; r <= rows; r ++)
 {
  grid += "<tr>"
- var startColumn = focusD.getDay() + 1
+ var startColumn = (new Date(`${focusD.getMonth() + 1}-01-${focusD.getFullYear()}`)).getDay() + 1
       for(var c = 1; c <= col; c++)         
       {  
          if((r + ',' + c) == (1 + ',' + startColumn)){
@@ -193,10 +199,3 @@ if(month_ == 1){
 }  
 return maxCalendarDay
 }
-calendars.forEach(calendar => {
-   calendar.addEventListener('click', (e) =>{      
-      if(e.target.id === "cld-img"){
-         constructPicker(e)
-      }             
-   })  
-})  
