@@ -169,7 +169,7 @@ for(var r = 1; r <= rows; r ++)
             withinRange = ''
         }     
         else{withinRange = 'n'}    
-         classNames = `${state} ${withinRange} ` 
+         classNames = `${state} ${withinRange} day` 
          grid += `<td class="${classNames}">${dayfill}</td>`
       }
  grid +=  "</tr>"       

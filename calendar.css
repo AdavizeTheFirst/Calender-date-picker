@@ -71,3 +71,6 @@ z-index: 0;
     background: rgb(177, 172, 172);
     color: rgb(129, 129, 129)
    }
+.calendarTable .day{
+    cursor: pointer;
+} 
