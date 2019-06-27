@@ -8,7 +8,7 @@ var getCurrentDateStr = () => {
       if(month.length === 1){month = 0 + "" + month}
    return (`${month}-${day}-${today.getFullYear()}`)
 }
-var constructPicker = (e, minDateStr, maxDateStr) =>{
+var constructPicker = (e, minDateStr, maxDateStr, blockedDays) =>{
     var calendarGrid =  document.createElement('table')
   calendarGrid.className = 'calendarTable'
   calendarGrid.tabIndex = 1
@@ -35,7 +35,7 @@ var constructPicker = (e, minDateStr, maxDateStr) =>{
    if (maxDateStr != "N/A") {
    endDate = new Date(maxDateStr)   
    }   
-calendarGrid.innerHTML = constructGrid(maxDateStr, minDateStr, focusDate)
+calendarGrid.innerHTML = constructGrid(maxDateStr, minDateStr, focusDate, blockedDays)
 // display the grid where attatched to the parent
 var positionStyle = document.createElement('style');
 positionStyle.type = 'text/css';
@@ -78,7 +78,7 @@ document.getElementById(calendarGrid.id).addEventListener('click', (ev) => {
       lastGridDate = `${("0" + month_).slice(-2)}-${getMaxMonthDay(month_ - 1,Number(mmyy[1]))}-${mmyy[1]}`
    } 
    if(cmpStr(lastGridDate) >= cmpStr(minDateStr)){
-      calendarGrid.innerHTML= constructGrid(maxDateStr, minDateStr, newFocusDate)
+      calendarGrid.innerHTML= constructGrid(maxDateStr, minDateStr, newFocusDate, blockedDays)
       calendarGrid.appendChild(positionStyle)}
       else{
          //show a red indicator around up icon
@@ -98,7 +98,7 @@ document.getElementById(calendarGrid.id).addEventListener('click', (ev) => {
      }
      
      if(cmpStr(newFocusDate) <= cmpStr(maxDateStr) )
-      calendarGrid. innerHTML = constructGrid(maxDateStr, minDateStr, newFocusDate)
+      calendarGrid. innerHTML = constructGrid(maxDateStr, minDateStr, newFocusDate, blockedDays)
       calendarGrid.appendChild(positionStyle)  
   }
 })}
@@ -111,7 +111,7 @@ var deconstructPicker = (e_) => {
    e_.target.parentElement.children[2].remove()
 }
 // make grid
-var constructGrid = (maxD, minD, focusD)=>{
+var constructGrid = (maxD, minD, focusD, blocked)=>{
    if(typeof(focusD) == "string") {
       focusD = new Date(focusD)
    }    
@@ -164,12 +164,12 @@ for(var r = 1; r <= rows; r ++)
          }    
          // check for dates within min and max range and attatch class name
          var curr = `${focusD.getFullYear()}-${ ('0' +(Number(focusD.getMonth()) + 1)).slice(-2)}-${('0' + dayfill).slice(-2)}` //.slice - 2 to add 0 in front        
-        if(curr >= cmpStr(minD) && curr <= cmpStr(maxD) )
-        {
-         withinRange = ''
+        if(curr >= cmpStr(minD) && curr <= cmpStr(maxD) && !blocked.includes(`${c}`))
+        {     
+            withinRange = ''
         }     
         else{withinRange = 'n'}    
-         classNames = `${state} ${withinRange} day` 
+         classNames = `${state} ${withinRange} ` 
          grid += `<td class="${classNames}">${dayfill}</td>`
       }
  grid +=  "</tr>"       
